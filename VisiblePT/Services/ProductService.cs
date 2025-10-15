@@ -11,14 +11,30 @@ namespace VisiblePT.Services
             _helper = helper;
         }
 
-        public async Task<IEnumerable<Product>> GetAllProducts()
+        private static ProductResponseDto MapToDto(Product p)
         {
-            return await _helper.GetAllProducts();
+            return new ProductResponseDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                DiscountPercent = p.DiscountPercent,
+                DiscountPrice = p.DiscountPrice,
+                ImageURL = p.ImageURL,
+                DateAdd = p.DateAdd
+            };
+        }
+
+        public async Task<IEnumerable<ProductResponseDto>> GetAllProducts()
+        {
+            var products = await _helper.GetAllProducts();
+            return products.Select(MapToDto);
         }
 
         public async Task<Product> GetProductById(int Id)
         {
-            return await GetProductById(Id);
+            return await _helper.GetProductById(Id);
         }
 
         public async Task<Product> CreateProduct(ProductCreateDto dto)
@@ -78,6 +94,7 @@ namespace VisiblePT.Services
 
         public async Task DeleteProduct(int Id)
         {
+            var existe = await _helper.GetProductById(Id) ?? throw new KeyNotFoundException("Producto no encontrado.");
             await _helper.DeleteProduct(Id);
         }
     }

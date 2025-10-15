@@ -5,7 +5,7 @@ namespace VisiblePT.Services
 {
     public interface IProductService
     {
-        Task<IEnumerable<Product>> GetAllProducts();
+        Task<IEnumerable<ProductResponseDto>> GetAllProducts();
         Task<Product> GetProductById(int Id);
         Task<Product> CreateProduct(ProductCreateDto dto);
         Task UpdateProduct(int Id, ProductUpdateDto dto);

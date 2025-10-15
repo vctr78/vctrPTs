@@ -1,7 +1,16 @@
+using VisiblePT.Data;
+using VisiblePT.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<IProductHelper, ProductHelper>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
